@@ -1,5 +1,6 @@
 var cSpawn = require('child_process').spawn;
 var os = require('os').type();
+var fs = require('fs');
 
 exports = module.exports = spawn;
 function spawn(command, args, options) {
@@ -50,6 +51,9 @@ function spawn(command, args, options) {
     args.unshift('/c');
     args.unshift('/d');
     command = 'cmd';
+  	if (process.env.windir && fs.existsSync(process.env.windir+'\\System32\\cmd.exe')) {
+  		command =  process.env.windir+'\\System32\\cmd.exe'		
+	  }  
   }
   return cSpawn(command, args, options);
 }
